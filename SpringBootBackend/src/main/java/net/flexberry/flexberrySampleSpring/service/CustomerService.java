@@ -19,8 +19,8 @@ public class CustomerService {
         return repository.findById(primarykey).orElse(null);
     }
 
-    public void saveOrUpdateCustomer(Customer customer) {
-        repository.save(customer);
+    public Customer saveOrUpdateCustomer(Customer customer) {
+        return repository.save(customer);
     }
 
     public void deleteCustomerByPrimaryKey(UUID primarykey) {

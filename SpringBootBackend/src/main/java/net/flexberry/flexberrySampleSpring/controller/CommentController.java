@@ -31,12 +31,12 @@ public class CommentController {
     }
 
     @PostMapping("/comments")
-    public void addComment(@RequestBody Comment comment) {
-        service.saveOrUpdateComment(comment);
+    public Comment addComment(@RequestBody Comment comment) {
+        return service.saveOrUpdateComment(comment);
     }
 
     @PutMapping("/comments")
-    public void updateComment(@RequestBody Comment comment) {
-        service.saveOrUpdateComment(comment);
+    public Comment updateComment(@RequestBody Comment comment) {
+        return service.saveOrUpdateComment(comment);
     }
 }

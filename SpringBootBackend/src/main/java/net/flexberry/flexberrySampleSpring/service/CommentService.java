@@ -18,8 +18,8 @@ public class CommentService {
         return repository.findById(primarykey).orElse(null);
     }
 
-    public void saveOrUpdateComment(Comment comment) {
-        repository.save(comment);
+    public Comment saveOrUpdateComment(Comment comment) {
+        return repository.save(comment);
     }
 
     public void deleteCommentByPrimaryKey(UUID primarykey) {

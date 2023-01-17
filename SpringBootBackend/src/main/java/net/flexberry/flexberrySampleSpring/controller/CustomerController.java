@@ -33,12 +33,12 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public void addCustomer(@RequestBody Customer customer) {
-        service.saveOrUpdateCustomer(customer);
+    public Customer addCustomer(@RequestBody Customer customer) {
+        return service.saveOrUpdateCustomer(customer);
     }
 
     @PutMapping("/customers")
-    public void updateCustomer(@RequestBody Customer customer) {
-        service.saveOrUpdateCustomer(customer);
+    public Customer updateCustomer(@RequestBody Customer customer) {
+        return service.saveOrUpdateCustomer(customer);
     }
 }
