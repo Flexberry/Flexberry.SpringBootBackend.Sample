@@ -1,6 +1,7 @@
 package net.flexberry.flexberrySampleSpring.service;
 
 import net.flexberry.flexberrySampleSpring.model.Comment;
+import net.flexberry.flexberrySampleSpring.model.Customer;
 import net.flexberry.flexberrySampleSpring.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,11 @@ public class CommentService {
     // Возвращает комментарии в заданном диапазоне.
     public List<Comment> getCommentsForPeriod(Date beginDate, Date endDate) {
         return repository.findByCommentDateGreaterThanEqualAndCommentDateLessThanEqual(beginDate, endDate);
+    }
+
+    public List<Comment> getAllComments() {
+        List<Comment> comments = repository.findAll();
+
+        return comments;
     }
 }

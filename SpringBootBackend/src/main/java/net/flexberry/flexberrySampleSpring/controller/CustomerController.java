@@ -27,6 +27,11 @@ public class CustomerController {
         return service.getFilteringCustomers(conditions);
     }
 
+    @GetMapping("/customers")
+    public List<Customer> getComments() {
+        return service.getAllCustomers();
+    }
+
     @DeleteMapping("/customers/{primaryKey}")
     public void deleteCustomer(@PathVariable("primaryKey") UUID primaryKey) {
         service.deleteCustomerByPrimaryKey(primaryKey);
