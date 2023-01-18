@@ -1,7 +1,6 @@
 package net.flexberry.flexberrySampleSpring.service;
 
 import net.flexberry.flexberrySampleSpring.model.Comment;
-import net.flexberry.flexberrySampleSpring.model.Customer;
 import net.flexberry.flexberrySampleSpring.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
