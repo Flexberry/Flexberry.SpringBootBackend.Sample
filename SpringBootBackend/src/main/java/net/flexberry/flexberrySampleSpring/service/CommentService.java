@@ -30,4 +30,10 @@ public class CommentService {
     public List<Comment> getCommentsForPeriod(Date beginDate, Date endDate) {
         return repository.findByCommentDateGreaterThanEqualAndCommentDateLessThanEqual(beginDate, endDate);
     }
+
+    public List<Comment> getAllComments() {
+        List<Comment> comments = repository.findAll();
+
+        return comments;
+    }
 }

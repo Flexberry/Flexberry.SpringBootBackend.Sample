@@ -25,6 +25,11 @@ public class CommentController {
         return service.getCommentsForPeriod(beginDate, endDate);
     }
 
+    @GetMapping("/comments")
+    public List<Comment> getComments() {
+        return service.getAllComments();
+    }
+
     @DeleteMapping("/comments/{primaryKey}")
     public void deleteComment(@PathVariable("primaryKey") UUID primaryKey) {
         service.deleteCommentByPrimaryKey(primaryKey);
