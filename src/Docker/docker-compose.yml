@@ -19,7 +19,12 @@ services:
             - SPRING_DATASOURCE_PASSWORD=jhv
             - SPRING_JPA_HIBERNATE_DDL_AUTO=update
         ports:
-            - "8080:8080"
+            - "8082:8080"
+            
+    springboot-gateway:
+        image: springbootsample/gateway
+        ports:
+            - "8081:8760"
 
     springboot-elasticsearch:
         image: springbootsample/elasticsearch
