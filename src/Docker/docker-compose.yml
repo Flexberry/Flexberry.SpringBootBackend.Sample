@@ -1,8 +1,4 @@
 version: '3'
-
-networks:
-    loki:
-
 services:
     springboot-postgres-db:
         image: springbootsample/postgres
@@ -50,8 +46,6 @@ services:
         ports:
             - "3100:3100"
         command: -config.file=/etc/loki/local-config.yaml
-        networks:
-            - loki
         volumes:
             - LOKIDB:/loki
             
@@ -62,8 +56,6 @@ services:
         environment:
             GF_SECURITY_ADMIN_PASSWORD: admin
             GF_SECURITY_ADMIN_USER: admin
-        networks:
-            - loki
 
 volumes:
   DB:
