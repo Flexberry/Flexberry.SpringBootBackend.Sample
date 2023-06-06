@@ -3,9 +3,9 @@ services:
     springboot-postgres-db:
         image: springbootsample/postgres
         volumes:
-        - DB:/var/lib/pgsql/data/
+            - DB:/var/lib/pgsql/data/
         ports:
-        - 5432:5432
+            - 5432:5432
 
     springboot-backend:
         image: springbootsample/backend
@@ -26,5 +26,42 @@ services:
         ports:
             - "8081:8760"
 
+    springboot-elasticsearch:
+        image: springbootsample/elasticsearch
+        ports:
+            - 9200:9200
+            - 9300:9300
+        environment:
+            - 'xpack.security.enabled=false'
+            - 'discovery.type=single-node'
+            - 'bootstrap.memory_lock=true'
+            - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+        cap_add:
+            - IPC_LOCK 
+
+    loki:
+        image: springbootsample/loki
+        ports:
+            - "3100:3100"
+        command: -config.file=/etc/loki/local-config.yaml
+        volumes:
+            - LOKIDB:/loki
+            
+    grafana:
+        image: grafana/grafana:latest
+        ports:
+            - "3000:3000"
+        environment:
+            GF_SECURITY_ADMIN_PASSWORD: admin
+            GF_SECURITY_ADMIN_USER: admin
+
 volumes:
   DB:
+  LOKIDB:
