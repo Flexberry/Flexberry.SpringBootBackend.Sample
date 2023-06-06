@@ -1,0 +1,19 @@
+server:
+  port: 8760
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: test
+          uri: http://baeldung.com
+          predicates:
+            - Path=/testroute
+          filters:
+            - StripPrefix=1
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
