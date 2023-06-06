@@ -3,9 +3,9 @@ services:
     springboot-postgres-db:
         image: springbootsample/postgres
         volumes:
-        - DB:/var/lib/pgsql/data/
+            - DB:/var/lib/pgsql/data/
         ports:
-        - 5432:5432
+            - 5432:5432
 
     springboot-backend:
         image: springbootsample/backend
@@ -20,6 +20,26 @@ services:
             - SPRING_JPA_HIBERNATE_DDL_AUTO=update
         ports:
             - "8080:8080"
+
+    springboot-elasticsearch:
+        image: springbootsample/elasticsearch
+        ports:
+            - 9200:9200
+            - 9300:9300
+        environment:
+            - 'xpack.security.enabled=false'
+            - 'discovery.type=single-node'
+            - 'bootstrap.memory_lock=true'
+            - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+        cap_add:
+            - IPC_LOCK 
 
 volumes:
   DB:
