@@ -1,4 +1,8 @@
 version: '3'
+
+networks:
+    springbootsample:
+
 services:
     springboot-postgres-db:
         image: springbootsample/postgres
@@ -6,6 +10,8 @@ services:
             - DB:/var/lib/pgsql/data/
         ports:
             - 5432:5432
+        networks:
+            - springbootsample
 
     springboot-backend:
         image: springbootsample/backend
@@ -20,6 +26,8 @@ services:
             - SPRING_JPA_HIBERNATE_DDL_AUTO=update
         ports:
             - "8080:8080"
+        networks:
+            - springbootsample
 
     springboot-elasticsearch:
         image: springbootsample/elasticsearch
@@ -40,6 +48,17 @@ services:
                 hard: 65536
         cap_add:
             - IPC_LOCK 
-
+        networks:
+            - springbootsample
+    
+    grafana:
+        image: springbootsample/grafana
+        ports:
+            - 3000:3000
+        environment:
+            GF_SECURITY_ADMIN_USER: admin
+            GF_SECURITY_ADMIN_PASSWORD: usr123
+        networks:
+            - springbootsample
 volumes:
   DB:
