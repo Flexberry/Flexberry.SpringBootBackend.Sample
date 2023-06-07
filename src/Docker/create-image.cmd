@@ -8,6 +8,8 @@ docker build --no-cache -f Dockerfiles/Dockerfile.ElasticSearch -t springbootsam
 
 docker build --no-cache -f Dockerfiles/GrafanaLoki/Dockerfile.Loki -t springbootsample/loki .
 
+docker build --no-cache -f Dockerfiles/GrafanaLoki/Dockerfile.Grafana -t springbootsample/grafana .
+
 docker build --no-cache -f Dockerfiles/Kafka/Dockerfile.Broker -t springbootsample/broker .
 
 docker build --no-cache -f Dockerfiles/Kafka/Dockerfile.ZooKeeper -t springbootsample/zookeeper .

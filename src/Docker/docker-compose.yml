@@ -56,7 +56,7 @@ services:
             - LOKIDB:/loki
             
     grafana:
-        image: grafana/grafana:latest
+        image: springbootsample/grafana
         ports:
             - "3000:3000"
         environment:
