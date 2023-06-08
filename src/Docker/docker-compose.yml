@@ -1,11 +1,12 @@
 version: '3'
+
 services:
     springboot-postgres-db:
         image: springbootsample/postgres
         volumes:
-            - DB:/var/lib/pgsql/data/
+                - DB:/var/lib/pgsql/data/
         ports:
-            - 5432:5432
+                - 5432:5432
 
     springboot-backend:
         image: springbootsample/backend
@@ -42,8 +43,7 @@ services:
                 soft: 65536
                 hard: 65536
         cap_add:
-            - IPC_LOCK 
-
+            - IPC_LOCK
     
     loki:
         image: springbootsample/loki
@@ -56,11 +56,10 @@ services:
     grafana:
         image: springbootsample/grafana
         ports:
-            - "3000:3000"
+            - 3000:3000
         environment:
-            GF_SECURITY_ADMIN_PASSWORD: admin
             GF_SECURITY_ADMIN_USER: admin
-
+            GF_SECURITY_ADMIN_PASSWORD: usr123
    
     zookeeper:
         image: springbootsample/zookeeper
