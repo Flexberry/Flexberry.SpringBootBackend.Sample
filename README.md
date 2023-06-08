@@ -30,44 +30,47 @@ Java бэкенд на основе фреймворка Spring Boot
 
 Запросы выполняются в Postman
 
-![image](https://user-images.githubusercontent.com/13151962/209081633-c5b2a222-7a23-434c-99a3-1712e61fb343.png)
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/d9420b10-e793-4e33-b533-219641a0073c)
 
 
-![image](https://user-images.githubusercontent.com/13151962/209081873-5729dc43-6848-4dbb-b613-379ad0c134e3.png)
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/f099463b-aaf2-4885-a6de-8aa7ab070e1e)
 
 
-![image](https://user-images.githubusercontent.com/13151962/209081952-4b9a5006-1b49-4293-bf29-55f02cb6efee.png)
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/e792c018-18e4-4abc-957c-955c64c4e18d)
 
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/38486722-c805-48b6-be35-f4aab95aef13)
 
-![image](https://user-images.githubusercontent.com/13151962/209082221-be3192ae-11d7-44d7-b693-32e83418952c.png)
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/d9b4cb05-5a2f-49fd-b612-293a9d1da766)
+
 
 ### Пример POST для детейла
 
-![image](https://user-images.githubusercontent.com/13151962/209082409-aa426f01-ac34-4913-a5f6-823edab5484c.png)
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/52517cfc-1b80-4210-b920-d7bcf069fa29)
 
 ### Запрос на выборку комментариев в диапазоне дат
 
-![image](https://user-images.githubusercontent.com/13151962/209084489-e4765321-3fc9-4784-8080-0bb39c43a3e4.png)
-![image](https://user-images.githubusercontent.com/13151962/209084537-b25fbad7-0fc5-446d-b43c-4fd23d38635c.png)
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/0ac18d03-f9ea-499d-bf59-d40141d04a91)
+
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/7aa7b2fe-9732-4c1a-99e3-819c91022bd5)
 
 ### Запрос с фильтром
 
-![image](https://user-images.githubusercontent.com/13151962/209091994-9933c37d-6ad5-478c-8c62-ebac30aef858.png)
+![image](https://github.com/Flexberry/Flexberry.SpringBootBackend.Sample/assets/13151962/0d7fe4e6-8623-4096-a11c-1f11dee83267)
 
 ### Примеры запросов для работы с файлами
 
 Загрузить файл:
 ```console
-curl --location --request POST 'http://localhost:8080/files/' \
+curl --location --request POST 'http://localhost:8081/service/backend/files/' \
 --form 'file=@"/home/user/test.txt"'
 ```
 
 Получить список файлов:
 ```console
-curl --location --request GET 'http://localhost:8080/files/'
+curl --location --request GET 'http://localhost:8081/service/backend/files/'
 ```
 
 Скачать указанный файл:
 ```console
-curl --location --request GET 'http://localhost:8080/files/test.txt'
+curl --location --request GET 'http://localhost:8081/service/backend/files/test.txt'
 ```
