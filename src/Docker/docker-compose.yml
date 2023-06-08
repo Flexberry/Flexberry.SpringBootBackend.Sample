@@ -1,8 +1,5 @@
 version: '3'
 
-networks:
-    springbootsample:
-
 services:
     springboot-postgres-db:
         image: springbootsample/postgres
@@ -10,8 +7,6 @@ services:
                 - DB:/var/lib/pgsql/data/
         ports:
                 - 5432:5432
-        networks:
-            - springbootsample
 
     springboot-backend:
         image: springbootsample/backend
@@ -24,10 +19,11 @@ services:
             - SPRING_DATASOURCE_USERNAME=flexberryuser
             - SPRING_DATASOURCE_PASSWORD=jhv
             - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+            
+    springboot-gateway:
+        image: springbootsample/gateway
         ports:
-            - "8080:8080"
-        networks:
-            - springbootsample
+            - "8081:8760"
 
     springboot-elasticsearch:
         image: springbootsample/elasticsearch
@@ -47,10 +43,8 @@ services:
                 soft: 65536
                 hard: 65536
         cap_add:
-            - IPC_LOCK 
-        networks:
-            - springbootsample
-
+            - IPC_LOCK
+    
     loki:
         image: springbootsample/loki
         ports:
@@ -66,8 +60,28 @@ services:
         environment:
             GF_SECURITY_ADMIN_USER: admin
             GF_SECURITY_ADMIN_PASSWORD: usr123
-        networks:
-            - springbootsample
+   
+    zookeeper:
+        image: springbootsample/zookeeper
+        environment:
+            ZOOKEEPER_CLIENT_PORT: 2181
+            ZOOKEEPER_TICK_TIME: 2000
+
+    broker:
+        image: springbootsample/broker
+        ports:
+            - "9092:9092"
+        depends_on:
+            - zookeeper
+        environment:
+            KAFKA_BROKER_ID: 1
+            KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+            KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+            KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
 volumes:
   DB:
   LOKIDB:

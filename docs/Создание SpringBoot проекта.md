@@ -18,12 +18,12 @@ Spring Boot обладает большим функционалом, но ег�
 
 Необходима версия Ultimate
 
-![](https://github.com/Flexberry/Flexberry.SpringReactApplication.Sample/blob/feature-230292-docs-create-springboot-project/docs/images/create1.jpg)
+![Инициализация в IDEA](images/create1.jpg)
 
 #### Сервис
 _https://start.spring.io/_ - специальный сервис для быстрого создания проекта. Скачивается архивом
 
-![](https://github.com/Flexberry/Flexberry.SpringReactApplication.Sample/blob/feature-230292-docs-create-springboot-project/docs/images/create2.jpg)
+![Инициализация в сервисе](images/create2.jpg)
 
 Формат пакета – jar, т.к War формат используется больше для web приложений.
 Java проекты бывают разных типов (в плане сброрки). 
@@ -36,7 +36,7 @@ Java проекты бывают разных типов (в плане сбро
 
 ## Структура проекта
 
-![](https://github.com/Flexberry/Flexberry.SpringReactApplication.Sample/blob/feature-230292-docs-create-springboot-project/docs/images/create3.jpg)
+![Структура проекта](images/create3.jpg)
 
 - **pom.xml** – описывает структуру проекта, имя, идентификатор, зависимости. В случае со spring boot также будет указан parent проект spring-boot-starter-parent.
 - **.idea** – служебная папка IDE.

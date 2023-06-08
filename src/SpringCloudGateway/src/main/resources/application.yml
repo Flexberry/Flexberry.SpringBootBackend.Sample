@@ -1,0 +1,19 @@
+server:
+  port: 8760
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: backend
+          uri: http://springboot-backend:8080
+          predicates:
+            - Path=/service/backend/**
+          filters:
+            - RewritePath=/service/backend/(?<RID>.*), /$\{RID}
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
