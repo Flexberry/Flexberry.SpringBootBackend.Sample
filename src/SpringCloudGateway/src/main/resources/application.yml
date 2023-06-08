@@ -5,12 +5,12 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: test
-          uri: http://baeldung.com
+        - id: backend
+          uri: http://springboot-backend:8080
           predicates:
-            - Path=/testroute
+            - Path=/service/backend/**
           filters:
-            - StripPrefix=1
+            - RewritePath=/service/backend/(?<RID>.*), /$\{RID}
 
   management:
     endpoints:
