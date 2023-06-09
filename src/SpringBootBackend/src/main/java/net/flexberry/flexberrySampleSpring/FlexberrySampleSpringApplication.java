@@ -19,11 +19,11 @@ public class FlexberrySampleSpringApplication {
 		org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(FlexberrySampleSpringApplication.class);
 		String startMessage = "Hello my dear friend! Flexberry Sample Spring Application is running!";
 
-		logger.trace(String.format("A TRACE Message: %s", startMessage));
-		logger.debug(String.format("A DEBUG Message: %s", startMessage));
-		logger.info(String.format("A INFO Message: %s", startMessage));
-		logger.warn(String.format("A WARN Message: %s", startMessage));
-		logger.error(String.format("A ERROR Message: %s", startMessage));
+		logger.trace(String.format("A TRACE Message: {0}", startMessage));
+		logger.debug(String.format("A DEBUG Message: {0}", startMessage));
+		logger.info(String.format("A INFO Message: {0}", startMessage));
+		logger.warn(String.format("A WARN Message: {0}", startMessage));
+		logger.error(String.format("A ERROR Message: {0}", startMessage));
 	}
 	@Bean
 	CommandLineRunner init(StorageService storageService) {
