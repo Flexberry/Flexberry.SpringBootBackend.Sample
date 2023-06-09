@@ -13,10 +13,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class FlexberrySampleSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FlexberrySampleSpringApplication.class, args);
-		first_log();
+		SendExampleLogMessage();
 	}
-
-	public static void first_log() {
+	private static void SendExampleLogMessage() {
 		org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(FlexberrySampleSpringApplication.class);
 		String startMessage = "Hello my dear friend! Flexberry Sample Spring Application is running!";
 
@@ -25,7 +24,6 @@ public class FlexberrySampleSpringApplication {
 		logger.info(String.format("A INFO Message: %s", startMessage));
 		logger.warn(String.format("A WARN Message: %s", startMessage));
 		logger.error(String.format("A ERROR Message: %s", startMessage));
-
 	}
 	@Bean
 	CommandLineRunner init(StorageService storageService) {
