@@ -1,1 +1,3 @@
 FROM grafana/grafana:latest
+
+COPY Dockerfiles/GrafanaLoki/datasource-config.yaml /etc/grafana/provisioning/datasources/datasource-config.yaml
