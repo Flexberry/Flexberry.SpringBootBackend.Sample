@@ -60,9 +60,8 @@ services:
         ports:
             - "3000:3000"
         environment:
-            GF_SECURITY_ADMIN_PASSWORD: admin
+            GF_SECURITY_ADMIN_PASSWORD: usr123
             GF_SECURITY_ADMIN_USER: admin
-
    
     zookeeper:
         image: springbootsample/zookeeper
@@ -84,6 +83,7 @@ services:
             KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
             KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
             KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
 
 volumes:
   DB:
