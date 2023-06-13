@@ -54,6 +54,16 @@ implementation 'com.github.loki4j:loki-logback-appender:1.4.1'
 
 где ```http://loki:3100``` – путь к серверу с Loki.
 
+Для отправки логов в Loki необходимо воспользоваться инструментом логирования Logback:
+
+```java
+org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(FlexberrySampleSpringApplication.class);
+String startMessage = "Hello, world!";
+
+logger.info("A INFO Message: {}", startMessage);
+logger.warn("A WARN Message: {}", startMessage);
+logger.error("A ERROR Message: {}", startMessage);
+```
 
 ## Источники
 1. [Loki4j Configuration](https://loki4j.github.io/loki-logback-appender/docs/configuration)
