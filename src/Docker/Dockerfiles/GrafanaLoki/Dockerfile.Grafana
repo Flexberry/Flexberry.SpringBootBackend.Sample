@@ -1,3 +1,5 @@
 FROM grafana/grafana:latest
 
 COPY Dockerfiles/GrafanaLoki/datasource-config.yaml /etc/grafana/provisioning/datasources/datasource-config.yaml
+COPY Dockerfiles/GrafanaLoki/dashboard-config.yaml /etc/grafana/provisioning/dashboards/dashboard-config.yaml
+COPY Dockerfiles/GrafanaLoki/dashboards/elasticsearch.json /var/lib/grafana/dashboards/elasticsearch.json
