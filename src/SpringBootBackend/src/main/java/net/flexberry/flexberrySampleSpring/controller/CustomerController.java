@@ -28,20 +28,23 @@ public class CustomerController {
     @Operation(summary = "Get customer by custom filters")
     @GetMapping("/filteringCustomers")
     @Parameter(
-            description = "JSON for example [\n" +
-            "    {\n" +
-            "        \"dataType\": \"string\",\n" +
-            "        \"compareType\": \"eq\",\n" +
-            "        \"value\": \"Vasia\",\n" +
-            "        \"field\": \"name\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "        \"dataType\": \"numeric\",\n" +
-            "        \"compareType\": \"eq\",\n" +
-            "        \"value\": 31,\n" +
-            "        \"field\": \"age\"\n" +
-            "    }\n" +
-            "]\n",
+            description ="""
+            JSON for example 
+            [
+                {
+                    "dataType": "string",
+                    "compareType": "eq",
+                    "value": "Vasia",
+                    "field": "name"
+                }
+                {
+                    "dataType": "numeric",
+                    "compareType": "eq",
+                    "value": 31,
+                    "field": "age"
+                }
+            ]
+            """,
             name = "conditions")
     public List<Customer> getCommentsForPeriod(@RequestBody List<Condition> conditions) {
         return service.getFilteringCustomers(conditions);
