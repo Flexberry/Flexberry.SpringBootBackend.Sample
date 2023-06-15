@@ -11,9 +11,29 @@ spring:
             - Path=/service/backend/**
           filters:
             - RewritePath=/service/backend/(?<RID>.*), /$\{RID}
+        - id: swagger
+          uri: http://localhost:8760
+          predicates:
+            - Path=/service/docs
+          filters:
+            - RewritePath=/service/docs, /swagger-ui.html
+        - id: swagger api docs on backend
+          uri: http://springboot-backend:8080
+          predicates:
+            - Path=/service/backend-api-docs
+          filters:
+            - RewritePath=/service/backend-api-docs, /v3/api-docs
 
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: '*'
+
+springdoc:
+  packagesToScan: net.flexberry
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    use-root-path: true
+    urls:
+      - url: /v3/api-docs
+        name: Swagger on Gateway
+      - url: /service/backend-api-docs
+        name: Swagger on Backend
