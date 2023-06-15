@@ -29,7 +29,7 @@ public class MetricRegistry extends StepMeterRegistry {
     @Autowired
     JdbcTemplate jdbcTemplate;
     private static final ThreadFactory DEFAULT_THREAD_FACTORY = new NamedThreadFactory("sample-metrics-publisher");
-    private LoggingService loggingService = new LoggingService();
+    private final LoggingService loggingService = new LoggingService();
     private final MetricConfig config;
 
     public MetricRegistry(MetricConfig config, Clock clock) {
@@ -47,20 +47,20 @@ public class MetricRegistry extends StepMeterRegistry {
         try {
             for (List<Meter> batch : MeterPartition.partition(this, config.batchSize())) {
                 String body = batch.stream().flatMap(meter -> meter.match(
-                        m -> writeMeter(m), // visitGauge
-                        m -> writeMeter(m), // visitCounter
-                        timer -> writeTimer(timer), // visitTimer
-                        summary -> writeSummary(summary), // visitSummary
-                        m -> writeMeter(m), // visitLongTaskTimer
-                        m -> writeMeter(m), // visitTimeGauge
-                        m -> writeMeter(m), // visitFunctionCounter
-                        timer -> writeFunctionTimer(timer), // visitFunctionTimer
-                        m -> writeMeter(m)) // visitMeter
+                        this::writeMeter, // visitGauge
+                        this::writeMeter, // visitCounter
+                        this::writeTimer, // visitTimer
+                        this::writeSummary, // visitSummary
+                        this::writeMeter, // visitLongTaskTimer
+                        this::writeMeter, // visitTimeGauge
+                        this::writeMeter, // visitFunctionCounter
+                        this::writeFunctionTimer, // visitFunctionTimer
+                        this::writeMeter) // visitMeter
                 ).collect(joining(",", "{\"metrics\":[", "]}"));
 
                 loggingService.LogTrace("sending metrics batch to server:" + System.lineSeparator() + body);
             }
-        } catch (Throwable e) {
+        } catch (Exception e) {
             loggingService.LogError("failed to send metrics to server", e);
         }
     }
@@ -112,16 +112,11 @@ public class MetricRegistry extends StepMeterRegistry {
     }
 
     @Override
-    public void start(ThreadFactory threadFactory) {
-        super.start(threadFactory);
-    }
-
-    @Override
     protected TimeUnit getBaseTimeUnit() {
         return TimeUnit.SECONDS;
     }
 
-    private String writeMetric(Meter.Id meterId, @Nullable String suffix, long wallTime, double value) {
+    private String writeMetric(Meter.Id meterId, String suffix, long wallTime, double value) {
         Meter.Id fullId = meterId;
         String name =  meterId.getName();
         String dimension = config.getDimension();
@@ -148,23 +143,24 @@ public class MetricRegistry extends StepMeterRegistry {
                 "}";
 
         // Запись метрики в БД.
-        Integer metric_id = GetMetric(name, dimension);
+        Integer metricId = getMetricId(name, dimension);
 
-        SaveMetricValue(metric_id, value, wallTime, metadata);
+        saveMetricValue(metricId, value, wallTime, metadata);
 
         return metricBuilder;
     }
 
-    private Integer GetMetric(String name, String dimensions) {
+    private Integer getMetricId(String name, String dimensions) {
         Integer id = -1;
 
         try {
-            id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = '" + name + "'", Integer.class);
+            String sqlMetricByName = "SELECT id FROM metric.metrics WHERE name = '" + name + "'";
+            id = jdbcTemplate.queryForObject(sqlMetricByName, Integer.class);
         } catch (EmptyResultDataAccessException e) {
             loggingService.LogTrace("Metric '" + name + "' not found");
         }
 
-        if (id < 0) {
+        if (id == null || id < 0) {
             jdbcTemplate.update("INSERT INTO metric.metrics (\"name\", \"dimensions\") " +
                 "VALUES (?, ? ::jsonb)", name, dimensions);
 
@@ -174,7 +170,7 @@ public class MetricRegistry extends StepMeterRegistry {
         return id;
     }
 
-    private void SaveMetricValue(Integer metricId, double value, long wallTime, String metadata) {
+    private void saveMetricValue(Integer metricId, double value, long wallTime, String metadata) {
         jdbcTemplate.update("INSERT INTO metric.\"values\" (\"metric_id\", \"value\", \"timestamp\", \"metadata\") " +
             "VALUES (?, ?, to_timestamp(" + wallTime + "), ? ::json)", metricId, value, metadata);
     }
