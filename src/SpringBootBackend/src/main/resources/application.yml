@@ -1,0 +1,7 @@
+springdoc:
+  packagesToScan: net.flexberry
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: false
+    use-root-path: true

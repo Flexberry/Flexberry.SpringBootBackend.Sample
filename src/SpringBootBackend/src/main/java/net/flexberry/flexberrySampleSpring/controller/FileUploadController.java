@@ -1,5 +1,6 @@
 package net.flexberry.flexberrySampleSpring.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import net.flexberry.flexberrySampleSpring.exceptions.StorageFileNotFoundException;
 import net.flexberry.flexberrySampleSpring.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
+    @Operation(summary = "Get files list")
     @GetMapping("/files/")
     @ResponseBody
     public List<String> listUploadedFiles() throws IOException {
@@ -37,6 +39,7 @@ public class FileUploadController {
         return result;
     }
 
+    @Operation(summary = "Download file by name")
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -46,6 +49,7 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
+    @Operation(summary = "Upload file")
     @PostMapping("/files/")
     public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file) {
 
