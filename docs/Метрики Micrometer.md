@@ -76,32 +76,31 @@ saveMetricValue(metricId, value, wallTime, metadata);
 ...
 
 private Integer getMetricId(String name, String dimensions) {
-        Integer id = -1;
+    Integer id = -1;
 
-        // Получаем ID метрики.
-        try {
-            id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = ?", Integer.class, name);
-        } catch (EmptyResultDataAccessException e) {
-            loggingService.LogTrace("Metric '" + name + "' not found");
-        }
-
-        // Если метрики нет, то мы ее создаем.
-        if (id == null || id < 0) {
-            jdbcTemplate.update("INSERT INTO metric.metrics (\"name\", \"dimensions\") " +
-                "VALUES (?, ? ::jsonb)", name, dimensions);
-
-            id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = ?", Integer.class, name);
-        }
-
-        return id;
+    // Получаем ID метрики.
+    try {
+        id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = ?", Integer.class, name);
+    } catch (EmptyResultDataAccessException e) {
+        loggingService.LogTrace("Metric '" + name + "' not found");
     }
 
-    private void saveMetricValue(Integer metricId, double value, long wallTime, String metadata) {
-        // Запись значения метрики.
-        jdbcTemplate.update("INSERT INTO metric.\"values\" (\"metric_id\", \"value\", \"timestamp\", \"metadata\") " +
-            "VALUES (?, ?, to_timestamp(?), ? ::json)", metricId, value, wallTime, metadata);
+    // Если метрики нет, то мы ее создаем.
+    if (id == null || id < 0) {
+        jdbcTemplate.update("INSERT INTO metric.metrics (\"name\", \"dimensions\") " +
+            "VALUES (?, ? ::jsonb)", name, dimensions);
+
+        id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = ?", Integer.class, name);
     }
 
+    return id;
+}
+
+private void saveMetricValue(Integer metricId, double value, long wallTime, String metadata) {
+    // Запись значения метрики.
+    jdbcTemplate.update("INSERT INTO metric.\"values\" (\"metric_id\", \"value\", \"timestamp\", \"metadata\") " +
+        "VALUES (?, ?, to_timestamp(?), ? ::json)", metricId, value, wallTime, metadata);
+}
 ```
 
 - **MetricClientConfig** - конфигурация регистратора метрик, где мы указываем наш MetricConfig и MetricRegistry.
