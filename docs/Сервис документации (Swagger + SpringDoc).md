@@ -109,7 +109,7 @@ public class SwaggerConfig {
 
 3) Пропишем конфигурацию в application.yml
 
-```java
+```yaml
 springdoc:
   packagesToScan: net.flexberry
   api-docs:
@@ -125,9 +125,9 @@ springdoc:
 ```
 
 В разделе urls добавлено две ссылки на документации. Первая ведет к собственной документации SpringCloudGateway, а вторая к документации в сервисе SpringBootBackend.
-Но ссылка на SpringBootBackend сделана через gateway (т.к напрямую обратиться не вышло из-за Cors). За документацией SpringBootBackend swagger обращается в свой-же gateway, но по пути /service/backend-api-docs. Для этого в gateway задан специальный роут.
+Но ссылка на SpringBootBackend сделана через gateway (т.к напрямую обратиться не вышло из-за Cors). За документацией SpringBootBackend swagger обращается в свой же gateway, но по пути /service/backend-api-docs. Для этого в gateway задан специальный роут.
 
-```java
+```yaml
 spring:
   cloud:
     gateway:
@@ -156,7 +156,7 @@ spring:
 
 2) application.yml
 
-```java
+```yaml
 springdoc:
   packagesToScan: net.flexberry
   api-docs:
