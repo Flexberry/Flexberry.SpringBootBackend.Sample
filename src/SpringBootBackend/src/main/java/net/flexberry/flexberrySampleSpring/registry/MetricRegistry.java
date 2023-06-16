@@ -9,7 +9,6 @@ import io.micrometer.core.instrument.Timer;
 import io.micrometer.core.instrument.step.StepMeterRegistry;
 import io.micrometer.core.instrument.util.MeterPartition;
 import io.micrometer.core.instrument.util.NamedThreadFactory;
-import io.micrometer.core.lang.Nullable;
 import net.flexberry.flexberrySampleSpring.configuration.MetricConfig;
 import net.flexberry.flexberrySampleSpring.service.LoggingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,8 +153,8 @@ public class MetricRegistry extends StepMeterRegistry {
         Integer id = -1;
 
         try {
-            String sqlMetricByName = "SELECT id FROM metric.metrics WHERE name = '" + name + "'";
-            id = jdbcTemplate.queryForObject(sqlMetricByName, Integer.class);
+            id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = ?",
+                    Integer.class, name);
         } catch (EmptyResultDataAccessException e) {
             loggingService.LogTrace("Metric '" + name + "' not found");
         }
@@ -164,7 +163,8 @@ public class MetricRegistry extends StepMeterRegistry {
             jdbcTemplate.update("INSERT INTO metric.metrics (\"name\", \"dimensions\") " +
                 "VALUES (?, ? ::jsonb)", name, dimensions);
 
-            id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = '" + name + "'", Integer.class);
+            id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = ?",
+                    Integer.class, name);
         }
 
         return id;
