@@ -172,6 +172,6 @@ public class MetricRegistry extends StepMeterRegistry {
 
     private void saveMetricValue(Integer metricId, double value, long wallTime, String metadata) {
         jdbcTemplate.update("INSERT INTO metric.\"values\" (\"metric_id\", \"value\", \"timestamp\", \"metadata\") " +
-            "VALUES (?, ?, to_timestamp(" + wallTime + "), ? ::json)", metricId, value, metadata);
+            "VALUES (?, ?, to_timestamp(?), ? ::json)", metricId, value, wallTime, metadata);
     }
 }
