@@ -152,6 +152,7 @@ public class MetricRegistry extends StepMeterRegistry {
     private Integer getMetricId(String name, String dimensions) {
         Integer id = -1;
 
+        // Получаем ID метрики.
         try {
             id = jdbcTemplate.queryForObject("SELECT id FROM metric.metrics WHERE name = ?",
                     Integer.class, name);
@@ -159,6 +160,7 @@ public class MetricRegistry extends StepMeterRegistry {
             loggingService.LogTrace("Metric '" + name + "' not found");
         }
 
+        // Если метрики нет, то мы ее создаем.
         if (id == null || id < 0) {
             jdbcTemplate.update("INSERT INTO metric.metrics (\"name\", \"dimensions\") " +
                 "VALUES (?, ? ::jsonb)", name, dimensions);
@@ -171,6 +173,7 @@ public class MetricRegistry extends StepMeterRegistry {
     }
 
     private void saveMetricValue(Integer metricId, double value, long wallTime, String metadata) {
+        // Запись значения метрики.
         jdbcTemplate.update("INSERT INTO metric.\"values\" (\"metric_id\", \"value\", \"timestamp\", \"metadata\") " +
             "VALUES (?, ?, to_timestamp(?), ? ::json)", metricId, value, wallTime, metadata);
     }
