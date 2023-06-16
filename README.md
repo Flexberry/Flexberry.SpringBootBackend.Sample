@@ -60,17 +60,13 @@ Java бэкенд на основе фреймворка Spring Boot
 ### Примеры запросов для работы с файлами
 
 Загрузить файл:
-```console
-curl --location --request POST 'http://localhost:8081/service/backend/files/' \
---form 'file=@"/home/user/test.txt"'
-```
+
+![PostFile](docs/images/filePost.jpg)
 
 Получить список файлов:
-```console
-curl --location --request GET 'http://localhost:8081/service/backend/files/'
-```
+
+![GetFiles](docs/images/fileGet.jpg)
 
 Скачать указанный файл:
-```console
-curl --location --request GET 'http://localhost:8081/service/backend/files/test.txt'
-```
+
+![GetFilesByName](docs/images/fileGetByName.jpg)

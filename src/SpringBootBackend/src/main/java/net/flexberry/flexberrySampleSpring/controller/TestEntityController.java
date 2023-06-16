@@ -2,7 +2,6 @@ package net.flexberry.flexberrySampleSpring.controller;
 
 import net.flexberry.flexberrySampleSpring.model.TestEntity;
 import net.flexberry.flexberrySampleSpring.service.TestEntityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,8 +10,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api")
 public class TestEntityController {
-    @Autowired
-    TestEntityService service;
+    private final TestEntityService service;
+
+    public TestEntityController(TestEntityService service) {
+        this.service = service;
+    }
 
     @GetMapping("/testentities/{primaryKey}")
     public TestEntity getTestEntity(@PathVariable("primaryKey") UUID primaryKey) {

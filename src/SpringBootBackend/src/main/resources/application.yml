@@ -1,3 +1,46 @@
+spring:
+  application:
+    name: SpringBootBackend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/appdb
+    username: flexberryuser
+    password: jhv
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 128MB
+      max-request-size: 128MB
+  elasticsearch:
+    uris: http://springboot-elasticsearch:9200
+
+management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+      sla:
+        http:
+          server:
+            requests: 100ms, 400ms, 500ms, 2000ms
+      percentiles:
+        http:
+          server:
+            requests: 0.5, 0.9, 0.95, 0.99
+  elastic:
+    metrics:
+      export:
+        host: http://springboot-elasticsearch:9200
+        index: metricsapp
+
 springdoc:
   packagesToScan: net.flexberry
   api-docs:

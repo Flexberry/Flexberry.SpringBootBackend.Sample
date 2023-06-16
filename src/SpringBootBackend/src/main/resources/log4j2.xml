@@ -42,8 +42,5 @@
             <AppenderRef ref="databaseAppender" level="ERROR" />
             <!--AppenderRef ref="Syslog" level="ERROR" /-->
         </Root>
-
-        <!-- LOG "com.baeldung*" at TRACE level -->
-        <Logger name="com.baeldung" level="trace"/>
     </Loggers>
 </Configuration>

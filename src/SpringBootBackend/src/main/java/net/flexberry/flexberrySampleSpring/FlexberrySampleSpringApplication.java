@@ -25,10 +25,4 @@ public class FlexberrySampleSpringApplication {
 		logger.warn("A WARN Message: {}", startMessage);
 		logger.error("A ERROR Message: {}", startMessage);
 	}
-	@Bean
-	CommandLineRunner init(StorageService storageService) {
-		return (args) -> {
-			storageService.init();
-		};
-	}
 }
