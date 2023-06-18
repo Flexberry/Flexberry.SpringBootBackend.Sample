@@ -4,9 +4,9 @@ services:
     springboot-postgres-db:
         image: springbootsample/postgres
         volumes:
-                - DB:/var/lib/pgsql/data/
+            - DB:/var/lib/pgsql/data/
         ports:
-                - 5432:5432
+            - 5432:5432
 
     springboot-backend:
         image: springbootsample/backend
@@ -19,11 +19,11 @@ services:
             - SPRING_DATASOURCE_USERNAME=flexberryuser
             - SPRING_DATASOURCE_PASSWORD=jhv
             - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-            
+   
     springboot-gateway:
         image: springbootsample/gateway
         ports:
-            - "8081:8760"
+            - 8081:8760
 
     springboot-elasticsearch:
         image: springbootsample/elasticsearch
@@ -70,7 +70,7 @@ services:
     broker:
         image: springbootsample/broker
         ports:
-            - "9092:9092"
+            - 9092:9092
         depends_on:
             - zookeeper
         environment:

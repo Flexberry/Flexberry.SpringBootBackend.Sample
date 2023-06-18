@@ -6,3 +6,4 @@ ENV POSTGRES_DB appdb
 
 COPY Postgres/create_tables.sql /docker-entrypoint-initdb.d/
 COPY Postgres/insert_records.sql /docker-entrypoint-initdb.d/
+COPY Postgres/metrics.sql /docker-entrypoint-initdb.d/
