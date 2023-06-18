@@ -1,45 +1,49 @@
 package net.flexberry.flexberrySampleSpring.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class KafkaProducerService {
-    private final static String TOPIC = "spring-boot-backend-topic";
-    private final static String BOOTSTRAP_SERVERS = "broker:29092";
+    @Value("${spring.kafka.template.default-topic}")
+    private String TOPIC;
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String BOOTSTRAP_SERVERS;
+    @Value("${spring.kafka.client-id}")
+    private String CLIENT_ID;
 
-    private static Producer<Long, String> createProducer() {
-        org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(KafkaProducerService.class);
-        logger.info("BOOTSTRAP_SERVERS: {}", BOOTSTRAP_SERVERS);
-
+    private Producer<Long, String> createProducer() {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, "SampleSpringApplicationKafkaProducer");
+        props.put(ProducerConfig.CLIENT_ID_CONFIG, CLIENT_ID);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         return new KafkaProducer<>(props);
     }
 
-    static void runProducer(final int sendMessageCount) throws Exception {
+    void runProducer(String... args) throws Exception {
         final Producer<Long, String> producer = createProducer();
         long time = System.currentTimeMillis();
 
         try {
-            for (long index = time; index < time + sendMessageCount; index++) {
-                final ProducerRecord<Long, String> record =
-                        new ProducerRecord<>(TOPIC, index,
-                                "Hello Mom " + index);
+            for (int index = 0; index < args.length; index++) {
+                final ProducerRecord<Long, String> record = new ProducerRecord<>(TOPIC, time + index, args[index]);
 
                 RecordMetadata metadata = producer.send(record).get();
 
                 long elapsedTime = System.currentTimeMillis() - time;
-                System.out.printf("sent record(key=%s value=%s) " +
+                System.out.printf("sent record(\n" +
+                                "\tkey=%s \n" +
+                                "\tvalue=%s \n)\n" +
                                 "meta(partition=%d, offset=%d) time=%d\n",
-                        record.key(), record.value(), metadata.partition(),
-                        metadata.offset(), elapsedTime);
-
+                        record.key(), record.value(), metadata.partition(), metadata.offset(), elapsedTime);
             }
         } finally {
             producer.flush();
@@ -47,11 +51,23 @@ public class KafkaProducerService {
         }
     }
 
-    public static void sendMessageToKafka(String... args) throws Exception {
-        if (args.length == 0) {
-            runProducer(5);
-        } else {
-            runProducer(Integer.parseInt(args[0]));
+    public void sendMessageToKafka(String... args) {
+        try {
+            runProducer(args);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendObjectOperationToKafka(String operation, Object object) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String jsonString = mapper.writeValueAsString(object);
+            sendMessageToKafka("Entity: " + object.getClass().getName()+ "\n" +
+                    "Operation: " + operation +"\n" +
+                    "Object: " + jsonString);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
