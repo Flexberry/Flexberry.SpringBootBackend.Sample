@@ -12,7 +12,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 @EnableJpaRepositories(repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
 @EnableKafka
 public class FlexberrySampleSpringApplication {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		SpringApplication.run(FlexberrySampleSpringApplication.class, args);
 		sendExampleLogMessage();
 	}
