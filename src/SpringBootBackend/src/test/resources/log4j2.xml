@@ -23,7 +23,7 @@
         </RollingFile>
 
         <JDBC name="databaseAppender" tableName="public.ApplicationLog">
-            <DriverManager connectionString="jdbc:postgresql://springboot-postgres-db:5432/appdb"
+            <DriverManager connectionString="jdbc:postgresql://localhost:5432/appdb"
                            driverClassName="org.postgresql.Driver" username="flexberryuser" password="jhv"  />
             <Column name="primaryKey" literal="uuid_in(md5(random()::text || now()::text)::cstring)" isUnicode="false" />
             <Column name="timestamp" isEventTimestamp="true" isUnicode="false" />
@@ -42,5 +42,8 @@
             <AppenderRef ref="databaseAppender" level="ERROR" />
             <!--AppenderRef ref="Syslog" level="ERROR" /-->
         </Root>
+
+        <!-- LOG "com.baeldung*" at TRACE level -->
+        <Logger name="com.baeldung" level="trace"/>
     </Loggers>
 </Configuration>
