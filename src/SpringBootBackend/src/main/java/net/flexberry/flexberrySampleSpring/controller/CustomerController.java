@@ -70,7 +70,6 @@ public class CustomerController {
             kafkaProducerService.sendObjectOperationToKafka("DELETE", customer);
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -78,12 +77,11 @@ public class CustomerController {
     @PostMapping("/customers")
     public Customer addCustomer(@RequestBody Customer customer) {
         Customer newCustomer = service.saveOrUpdateCustomer(customer);
-        
+
         try {
             kafkaProducerService.sendObjectOperationToKafka("CREATE", newCustomer);
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
         }
 
         return newCustomer;
@@ -98,7 +96,6 @@ public class CustomerController {
             kafkaProducerService.sendObjectOperationToKafka("UPDATE", newCustomer);
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
         }
 
         return newCustomer;
