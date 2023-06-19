@@ -9,7 +9,7 @@ datasources:
     isDefault: true
     version: 1
     editable: false
-  - name: Elasticsearch-metrics
+  - name: Elasticsearch-comment
     uid: dd56f93c-d54a-411f-b0ec-70b6b8d0b7ca
     orgId: 1
     type: elasticsearch
@@ -17,7 +17,7 @@ datasources:
     access: proxy
     url: 'http://springboot-elasticsearch:9200'
     user: ''
-    database: metricsapp-2023-06
+    database: comment
     basicAuth: false
     isDefault: false
     jsonData:
@@ -25,5 +25,5 @@ datasources:
       logLevelField: ''
       logMessageField: ''
       maxConcurrentShardRequests: 5
-      timeField: '@timestamp'
+      timeField: 'commentdate'
     readOnly: false
