@@ -1,7 +1,6 @@
-package net.flexberry.flexberrySampleSpring.service;
+package net.flexberry.flexberrySampleSpring.service;  //NOSONAR
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import net.flexberry.flexberrySampleSpring.FlexberrySampleSpringApplication;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -43,9 +42,14 @@ public class KafkaProducerService {
                 RecordMetadata metadata = producer.send(producerRecord).get();
 
                 long elapsedTime = System.currentTimeMillis() - time;
-                logger.info("sent record(\n \tkey=%s \n \tvalue=%s \n)\n" +
-                                "meta(partition=%d, offset=%d) time=%d\n",
-                        producerRecord.key(), producerRecord.value(), metadata.partition(), metadata.offset(), elapsedTime);
+                logger.info("""
+                                sent record(
+                                    key=%s
+                                    value=%s
+                                )    
+                                meta(partition=%d, offset=%d) time=%d""",
+                        producerRecord.key(), producerRecord.value().toString(),
+                        metadata.partition(), metadata.offset(), elapsedTime);
             }
         } finally {
             producer.flush();
