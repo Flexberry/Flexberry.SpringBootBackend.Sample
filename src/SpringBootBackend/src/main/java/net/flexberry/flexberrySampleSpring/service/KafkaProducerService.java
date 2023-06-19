@@ -8,11 +8,9 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import java.util.Properties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 @Service
-@ComponentScan
 public class KafkaProducerService {
     @Value("${spring.kafka.template.default-topic}")
     private String TOPIC;
@@ -27,6 +25,7 @@ public class KafkaProducerService {
         props.put(ProducerConfig.CLIENT_ID_CONFIG, CLIENT_ID);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
         return new KafkaProducer<>(props);
     }
 

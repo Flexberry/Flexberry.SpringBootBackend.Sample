@@ -18,7 +18,6 @@ import java.util.UUID;
 public class CustomerController {
     @Autowired
     CustomerService service;
-    @Autowired
     KafkaProducerService kafkaProducerService;
 
     @Operation(summary = "Get customer by primary key")
@@ -62,7 +61,9 @@ public class CustomerController {
     @DeleteMapping("/customers/{primaryKey}")
     public void deleteCustomer(@PathVariable("primaryKey") UUID primaryKey) {
         Customer customer = service.getCustomer(primaryKey);
+
         service.deleteCustomerByPrimaryKey(primaryKey);
+
         kafkaProducerService.sendObjectOperationToKafka("DELETE", customer);
     }
 
@@ -71,6 +72,7 @@ public class CustomerController {
     public Customer addCustomer(@RequestBody Customer customer) {
         Customer newCustomer = service.saveOrUpdateCustomer(customer);
         kafkaProducerService.sendObjectOperationToKafka("CREATE", newCustomer);
+
         return newCustomer;
     }
 
@@ -79,6 +81,7 @@ public class CustomerController {
     public Customer updateCustomer(@RequestBody Customer customer) {
         Customer newCustomer = service.saveOrUpdateCustomer(customer);
         kafkaProducerService.sendObjectOperationToKafka("UPDATE", newCustomer);
+
         return newCustomer;
     }
 }
