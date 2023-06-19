@@ -70,3 +70,7 @@ Java бэкенд на основе фреймворка Spring Boot
 Скачать указанный файл:
 
 ![GetFilesByName](docs/images/fileGetByName.jpg)
+
+### Сервис документации Swagger
+
+localhost:8081/service/docs

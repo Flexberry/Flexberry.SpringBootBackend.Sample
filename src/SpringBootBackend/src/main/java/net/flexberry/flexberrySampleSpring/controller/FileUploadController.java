@@ -1,6 +1,7 @@
 package net.flexberry.flexberrySampleSpring.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import net.flexberry.flexberrySampleSpring.exceptions.StorageFileNotFoundException;
 import net.flexberry.flexberrySampleSpring.service.StorageService;
 import org.springframework.core.io.Resource;
@@ -48,7 +49,10 @@ public class FileUploadController {
 
     @Operation(summary = "Upload file")
     @PostMapping("/files")
-    public ResponseEntity handleFileUpload(MultipartFile file) {
+    @Parameter(
+            description ="Uploaded file",
+            name = "file")
+    public ResponseEntity handleFileUpload(@RequestBody MultipartFile file) {
 
         storageService.store(file);
         return ResponseEntity.ok("You successfully uploaded " + file.getOriginalFilename() + "!");
