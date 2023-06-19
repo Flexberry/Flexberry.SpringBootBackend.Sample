@@ -2,15 +2,13 @@ package net.flexberry.flexberrySampleSpring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.envers.repository.support.EnversRevisionRepositoryFactoryBean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.kafka.annotation.EnableKafka;
 
-
-
+@ComponentScan("net.flexberry.flexberrySampleSpring.service")
 @SpringBootApplication
 @EnableJpaRepositories(repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
-@EnableKafka
 public class FlexberrySampleSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FlexberrySampleSpringApplication.class, args);
