@@ -44,14 +44,15 @@ public class KafkaProducerService {
                 long elapsedTime = System.currentTimeMillis() - time;
                 logger.info("""
                                 sent record(
-                                    key={0}
-                                    value={1}
+                                    key=%s
+                                    value=%s
                                 )    
-                                meta(partition={2}, offset={3} time={4}""",
-                        producerRecord.key(), producerRecord.value(),
+                                meta(partition=%d, offset=%d) time=%d""",
+                        producerRecord.key(), producerRecord.value(), //NOSONAR
                         metadata.partition(), metadata.offset(), elapsedTime);
             }
-        } finally {
+        }
+        finally {
             producer.flush();
             producer.close();
         }
