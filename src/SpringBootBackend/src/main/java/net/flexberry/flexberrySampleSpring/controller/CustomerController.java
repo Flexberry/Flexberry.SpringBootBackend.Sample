@@ -70,7 +70,8 @@ public class CustomerController {
             kafkaProducerService.sendObjectOperationToKafka("DELETE", customer);
         }
         catch (Exception e) {
-            System.out.printf("ERROR: 'sendObjectOperationToKafka' of 'KafkaProducerService' failed!");
+            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerController.class);
+            logger.error("'sendObjectOperationToKafka' of 'KafkaProducerService' with operation 'DELETE' failed!");
         }
     }
 
@@ -83,7 +84,8 @@ public class CustomerController {
             kafkaProducerService.sendObjectOperationToKafka("CREATE", newCustomer);
         }
         catch (Exception e) {
-            System.out.printf("ERROR: 'sendObjectOperationToKafka' of 'KafkaProducerService' failed!");
+            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerController.class);
+            logger.error("ERROR: 'sendObjectOperationToKafka' of 'KafkaProducerService' with operation 'CREATE' failed!");
         }
 
         return newCustomer;
@@ -98,7 +100,8 @@ public class CustomerController {
             kafkaProducerService.sendObjectOperationToKafka("UPDATE", newCustomer);
         }
         catch (Exception e) {
-            System.out.printf("ERROR: 'sendObjectOperationToKafka' of 'KafkaProducerService' failed!");
+            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerController.class);
+            logger.error("ERROR: 'sendObjectOperationToKafka' of 'KafkaProducerService' with operation 'UPDATE' failed!");
         }
 
         return newCustomer;
