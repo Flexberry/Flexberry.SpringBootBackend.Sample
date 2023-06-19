@@ -13,3 +13,7 @@ docker build --no-cache -f Dockerfiles/GrafanaLoki/Dockerfile.Grafana -t springb
 docker build --no-cache -f Dockerfiles/Kafka/Dockerfile.Broker -t springbootsample/broker .
 
 docker build --no-cache -f Dockerfiles/Kafka/Dockerfile.ZooKeeper -t springbootsample/zookeeper .
+
+docker build --no-cache -f Dockerfiles/PGSync/Dockerfile.PGSync -t springbootsample/pgsync Dockerfiles/PGSync
+
+docker build --no-cache -f Dockerfiles/PGSync/Dockerfile.Redis -t springbootsample/redis .

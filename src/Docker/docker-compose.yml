@@ -81,7 +81,21 @@ services:
             KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
             KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
             KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-
+    
+    redis:
+        image: springbootsample/redis
+        ports:
+            - '6379:6379'
+    
+    pgsync:
+        image: springbootsample/pgsync
+        environment:
+        - PG_USER=flexberryuser
+        - PG_PASSWORD=jhv
+        - PG_DATABASE=appdb
+        - PG_HOST=springboot-postgres-db
+        - ELASTICSEARCH_HOST=springboot-elasticsearch
+        - REDIS_HOST=redis
 volumes:
   DB:
   LOKIDB:
