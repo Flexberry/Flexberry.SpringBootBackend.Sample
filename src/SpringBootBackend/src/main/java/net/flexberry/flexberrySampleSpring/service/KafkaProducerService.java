@@ -29,7 +29,7 @@ public class KafkaProducerService {
         return new KafkaProducer<>(props);
     }
 
-    void runProducer(String... args) throws Exception {
+    void runProducer(String... args) throws Exception { //NOSONAR
         org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(KafkaProducerService.class);
 
         final Producer<Long, String> producer = createProducer();
@@ -44,11 +44,11 @@ public class KafkaProducerService {
                 long elapsedTime = System.currentTimeMillis() - time;
                 logger.info("""
                                 sent record(
-                                    key=%s
-                                    value=%s
+                                    key={0}
+                                    value={1}
                                 )    
-                                meta(partition=%d, offset=%d) time=%d""",
-                        producerRecord.key(), producerRecord.value().toString(),
+                                meta(partition={2}, offset={3} time={4}""",
+                        producerRecord.key(), producerRecord.value(),
                         metadata.partition(), metadata.offset(), elapsedTime);
             }
         } finally {
