@@ -15,10 +15,11 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class CustomerController {
     private final CustomerService service;
-    KafkaProducerService kafkaProducerService;
+    private final KafkaProducerService kafkaProducerService;
 
-    public CustomerController(CustomerService service) {
+    public CustomerController(CustomerService service, KafkaProducerService kafkaProducerService) {
         this.service = service;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @Operation(summary = "Get customer by primary key")
