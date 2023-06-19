@@ -66,14 +66,14 @@ public class CustomerController {
 
         service.deleteCustomerByPrimaryKey(primaryKey);
 
-        kafkaProducerService.sendObjectOperationToKafka("DELETE", customer);
+//        kafkaProducerService.sendObjectOperationToKafka("DELETE", customer);
     }
 
     @Operation(summary = "Post customer")
     @PostMapping("/customers")
     public Customer addCustomer(@RequestBody Customer customer) {
         Customer newCustomer = service.saveOrUpdateCustomer(customer);
-        kafkaProducerService.sendObjectOperationToKafka("CREATE", newCustomer);
+//        kafkaProducerService.sendObjectOperationToKafka("CREATE", newCustomer);
 
         return newCustomer;
     }
@@ -82,7 +82,7 @@ public class CustomerController {
     @PutMapping("/customers")
     public Customer updateCustomer(@RequestBody Customer customer) {
         Customer newCustomer = service.saveOrUpdateCustomer(customer);
-        kafkaProducerService.sendObjectOperationToKafka("UPDATE", newCustomer);
+//        kafkaProducerService.sendObjectOperationToKafka("UPDATE", newCustomer);
 
         return newCustomer;
     }
