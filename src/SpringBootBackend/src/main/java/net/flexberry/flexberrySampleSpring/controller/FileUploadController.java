@@ -52,7 +52,7 @@ public class FileUploadController {
     @Parameter(
             description ="Uploaded file",
             name = "file")
-    public ResponseEntity handleFileUpload(@RequestBody MultipartFile file) {
+    public ResponseEntity<String> handleFileUpload(@RequestBody MultipartFile file) {
 
         storageService.store(file);
         return ResponseEntity.ok("You successfully uploaded " + file.getOriginalFilename() + "!");
