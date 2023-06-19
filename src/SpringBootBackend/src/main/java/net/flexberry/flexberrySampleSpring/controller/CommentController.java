@@ -3,7 +3,6 @@ package net.flexberry.flexberrySampleSpring.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import net.flexberry.flexberrySampleSpring.model.Comment;
 import net.flexberry.flexberrySampleSpring.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -13,8 +12,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class CommentController {
-    @Autowired
-    CommentService service;
+    private final CommentService service;
+
+    public CommentController(CommentService service) {
+        this.service = service;
+    }
 
     @Operation(summary = "Get comment by primary key")
     @GetMapping("/comments/{primarykey}")

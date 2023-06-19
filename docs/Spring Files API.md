@@ -30,17 +30,13 @@ net.flexberry.flexberrySampleSpring.controllers.**FileUploadController** - ко�
 ### Примеры запросов для работы с файлами
 
 Загрузить файл:
-```console
-curl --location --request POST 'http://localhost:8080/files/' \
---form 'file=@"/home/user/test.txt"'
-```
+
+![PostFile](images/filePost.jpg)
 
 Получить список файлов:
-```console
-curl --location --request GET 'http://localhost:8080/files/'
-```
+
+![GetFiles](images/fileGet.jpg)
 
 Скачать указанный файл:
-```console
-curl --location --request GET 'http://localhost:8080/files/test.txt'
-```
+
+![GetFilesByName](images/fileGetByName.jpg)

@@ -1,34 +1,32 @@
 package net.flexberry.flexberrySampleSpring.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import net.flexberry.flexberrySampleSpring.exceptions.StorageFileNotFoundException;
 import net.flexberry.flexberrySampleSpring.service.StorageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/api")
 public class FileUploadController {
     private final StorageService storageService;
 
-    @Autowired
     public FileUploadController(StorageService storageService) {
         this.storageService = storageService;
     }
 
     @Operation(summary = "Get files list")
-    @GetMapping("/files/")
+    @GetMapping("/files")
     @ResponseBody
     public List<String> listUploadedFiles() throws IOException {
 
@@ -50,8 +48,11 @@ public class FileUploadController {
     }
 
     @Operation(summary = "Upload file")
-    @PostMapping("/files/")
-    public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/files")
+    @Parameter(
+            description ="Uploaded file",
+            name = "file")
+    public ResponseEntity<String> handleFileUpload(@RequestBody MultipartFile file) {
 
         storageService.store(file);
         return ResponseEntity.ok("You successfully uploaded " + file.getOriginalFilename() + "!");
