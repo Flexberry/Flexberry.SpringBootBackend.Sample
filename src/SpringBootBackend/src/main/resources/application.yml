@@ -35,11 +35,6 @@ management:
         http:
           server:
             requests: 0.5, 0.9, 0.95, 0.99
-  elastic:
-    metrics:
-      export:
-        host: http://springboot-elasticsearch:9200
-        index: metricsapp
 
 springdoc:
   packagesToScan: net.flexberry
