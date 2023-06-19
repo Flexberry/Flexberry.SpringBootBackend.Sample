@@ -1,0 +1,42 @@
+[
+    {
+      "database": "appdb",
+      "index": "testentity",
+      "nodes": {
+        "table": "testentity",
+        "schema": "public",
+        "columns": [
+          "primarykey", 
+          "name", 
+          "points", 
+          "enabled"
+        ]
+      }
+    },
+    {
+      "database": "appdb",
+      "index": "customer",
+      "nodes": {
+        "table": "customer",
+        "schema": "public",
+        "columns": [
+          "primarykey", 
+          "name", 
+          "age"
+        ]
+      }
+    },
+    {
+      "database": "appdb",
+      "index": "comment",
+      "nodes": {
+        "table": "comment",
+        "schema": "public",
+        "columns": [
+          "primarykey", 
+          "commentdate", 
+          "commenttext"
+        ]
+      }
+    }
+  ]
