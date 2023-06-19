@@ -22,17 +22,7 @@ public class StorageService {
     private final Path rootLocation;
 
     public StorageService() {
-        this.rootLocation = Paths.get("Uploads");
-    }
-
-
-    public void init() {
-        try {
-            Files.createDirectories(rootLocation);
-        }
-        catch (IOException e) {
-            throw new StorageException("Could not initialize storage", e);
-        }
+        rootLocation = Paths.get("Uploads");
     }
 
     public void store(MultipartFile file)
@@ -41,10 +31,13 @@ public class StorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
-            Path destinationFile = this.rootLocation.resolve(
+
+            checkRootLoaction();
+
+            Path destinationFile = rootLocation.resolve(
                             Paths.get(file.getOriginalFilename()))
                     .normalize().toAbsolutePath();
-            if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+            if (!destinationFile.getParent().equals(rootLocation.toAbsolutePath())) {
                 // This is a security check
                 throw new StorageException(
                         "Cannot store file outside current directory.");
@@ -61,17 +54,13 @@ public class StorageService {
 
     public Stream<Path> loadAll(){
         try {
-            return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(this.rootLocation::relativize);
+            return Files.walk(rootLocation, 1)
+                    .filter(path -> !path.equals(rootLocation))
+                    .map(rootLocation::relativize);
         }
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
-    }
-
-    private Path load(String filename) {
-        return rootLocation.resolve(filename);
     }
 
     public Resource loadAsResource(String filename){
@@ -89,6 +78,21 @@ public class StorageService {
         }
         catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+        }
+    }
+
+    private Path load(String filename) {
+        return rootLocation.resolve(filename);
+    }
+
+    private void checkRootLoaction() {
+        if (Files.isDirectory(rootLocation)) return;
+
+        try {
+            Files.createDirectories(rootLocation);
+        }
+        catch (IOException e) {
+            throw new StorageException("Could not initialize storage", e);
         }
     }
 
