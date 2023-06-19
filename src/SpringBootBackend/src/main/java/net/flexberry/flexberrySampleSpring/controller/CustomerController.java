@@ -66,14 +66,25 @@ public class CustomerController {
 
         service.deleteCustomerByPrimaryKey(primaryKey);
 
-//        kafkaProducerService.sendObjectOperationToKafka("DELETE", customer);
+        try {
+            kafkaProducerService.sendObjectOperationToKafka("DELETE", customer);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Operation(summary = "Post customer")
     @PostMapping("/customers")
     public Customer addCustomer(@RequestBody Customer customer) {
         Customer newCustomer = service.saveOrUpdateCustomer(customer);
-//        kafkaProducerService.sendObjectOperationToKafka("CREATE", newCustomer);
+        
+        try {
+            kafkaProducerService.sendObjectOperationToKafka("CREATE", newCustomer);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         return newCustomer;
     }
@@ -82,7 +93,13 @@ public class CustomerController {
     @PutMapping("/customers")
     public Customer updateCustomer(@RequestBody Customer customer) {
         Customer newCustomer = service.saveOrUpdateCustomer(customer);
-//        kafkaProducerService.sendObjectOperationToKafka("UPDATE", newCustomer);
+
+        try {
+            kafkaProducerService.sendObjectOperationToKafka("UPDATE", newCustomer);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         return newCustomer;
     }
