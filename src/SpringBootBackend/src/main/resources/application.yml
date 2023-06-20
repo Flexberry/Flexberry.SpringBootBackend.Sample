@@ -19,6 +19,11 @@ spring:
       max-request-size: 128MB
   elasticsearch:
     uris: http://springboot-elasticsearch:9200
+  kafka:
+    bootstrap-servers: broker:29092
+    client-id: spring-boot-backend-producer
+    template:
+      default-topic: spring-boot-backend-topic
 
 management:
   metrics:

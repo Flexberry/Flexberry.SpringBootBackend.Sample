@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import net.flexberry.flexberrySampleSpring.db.filter.internal.Condition;
 import net.flexberry.flexberrySampleSpring.model.Customer;
 import net.flexberry.flexberrySampleSpring.service.CustomerService;
+import net.flexberry.flexberrySampleSpring.service.KafkaProducerService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +15,11 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class CustomerController {
     private final CustomerService service;
+    private final KafkaProducerService kafkaProducerService;
 
-    public CustomerController(CustomerService service) {
+    public CustomerController(CustomerService service, KafkaProducerService kafkaProducerService) {
         this.service = service;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @Operation(summary = "Get customer by primary key")
@@ -60,18 +62,45 @@ public class CustomerController {
     @Operation(summary = "Delete customer with primary key")
     @DeleteMapping("/customers/{primaryKey}")
     public void deleteCustomer(@PathVariable("primaryKey") UUID primaryKey) {
+        Customer customer = service.getCustomer(primaryKey);
+
         service.deleteCustomerByPrimaryKey(primaryKey);
+
+        try {
+            kafkaProducerService.sendObjectOperationToKafka("DELETE", customer);
+        } catch (Exception e) {
+            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerController.class);
+            logger.error("'sendObjectOperationToKafka' of 'KafkaProducerService' with operation 'DELETE' failed!");
+        }
     }
 
     @Operation(summary = "Post customer")
     @PostMapping("/customers")
     public Customer addCustomer(@RequestBody Customer customer) {
-        return service.saveOrUpdateCustomer(customer);
+        Customer newCustomer = service.saveOrUpdateCustomer(customer);
+
+        try {
+            kafkaProducerService.sendObjectOperationToKafka("CREATE", newCustomer);
+        } catch (Exception e) {
+            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerController.class);
+            logger.error("ERROR: 'sendObjectOperationToKafka' of 'KafkaProducerService' with operation 'CREATE' failed!");
+        }
+
+        return newCustomer;
     }
 
     @Operation(summary = "Update customer")
     @PutMapping("/customers")
     public Customer updateCustomer(@RequestBody Customer customer) {
-        return service.saveOrUpdateCustomer(customer);
+        Customer newCustomer = service.saveOrUpdateCustomer(customer);
+
+        try {
+            kafkaProducerService.sendObjectOperationToKafka("UPDATE", newCustomer);
+        } catch (Exception e) {
+            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerController.class);
+            logger.error("ERROR: 'sendObjectOperationToKafka' of 'KafkaProducerService' with operation 'UPDATE' failed!");
+        }
+
+        return newCustomer;
     }
 }
