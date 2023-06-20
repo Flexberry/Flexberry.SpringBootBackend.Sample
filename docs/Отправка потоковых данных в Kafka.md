@@ -94,32 +94,32 @@ public void sendObjectOperationToKafka(String operation, Object object) {
 
 ## Просмотр данных, полученных Apache Kafka
 Для просмотра данных возможны 2 подхода:
-1. С помощью соответсвующих команд через командную строку.
+1. С помощью соответствующих команд через командную строку.
 2. С помощью сторонних решений.
 
 ### Просмотр данных через командную строку
-Для просмотра полученных данных по конткретной теме (topic) достаточно вызвать следующую команду с указанными ключами в консоле образа (системы), где установлен брокер сообщений Apache Kafka:
+Для просмотра полученных данных по конкретной теме (topic) достаточно вызвать следующую команду с указанными ключами в консоли образа (системы), где установлен брокер сообщений Apache Kafka:
 
 ```
 kafka-console-consumer --bootstrap-server broker:9092 --topic spring-boot-backend-topic --from-beginning
 ```
-![Результат в консоле образа (системы), где установлен брокер сообщений Apache Kafka](images/kafaka-console-consumer-container.jpg)
+![Результат в консоли образа (системы), где установлен брокер сообщений Apache Kafka](images/kafaka-console-consumer-container.jpg)
 
 Для доступа к информации с докер-контейнера нужно будет выполнить следующую команду:
 ```
 docker exec --interactive --tty docker-broker-1 kafka-console-consumer --bootstrap-server broker:9092 --topic spring-boot-backend-topic --from-beginning
 ```
-![Результат в консоле Windows](images/kafaka-console-consumer-windows.jpg)
+![Результат в консоли Windows](images/kafaka-console-consumer-windows.jpg)
 
 В данных примерах команд:
 - `docker-broker-1` – имя докер-контейнера.
 - `broker:9092` – внешний доступный адрес брокер сообщений Apache Kafka.
-- `spring-boot-backend-topic` – тема, которой соотвествуют сообщения.
+- `spring-boot-backend-topic` – тема, которой соответствуют сообщения.
 
 
 ### Просмотр данных через стороннее решение
-Существует возможность просмотра данных, полученных Apache Kafka, и с помощью стороннних решений, среди которых есть как платные, так и бесплатные. Более подробно можно ознакомиться в статье [Как следить за Kafka-кластером: 8 полезных инструментов](https://www.bigdataschool.ru/blog/administrative-tools-to-monitor-kafka-clusters.html).
-Из рассмотренных в статье продуктов, наиболее простым вариантом для развертывания и послеующего просмотра сообщений Apache Kafka оказался [Kafdrop](https://github.com/HomeAdvisor/Kafdrop).
+Существует возможность просмотра данных, полученных Apache Kafka, и с помощью сторонних решений, среди которых есть как платные, так и бесплатные. Более подробно можно ознакомиться в статье [Как следить за Kafka-кластером: 8 полезных инструментов](https://www.bigdataschool.ru/blog/administrative-tools-to-monitor-kafka-clusters.html).
+Из рассмотренных в статье продуктов, наиболее простым вариантом для развертывания и последующего просмотра сообщений Apache Kafka оказался [Kafdrop](https://github.com/HomeAdvisor/Kafdrop).
 
 ![Результат Kafdrop](images/kafdrop.jpg)
 
