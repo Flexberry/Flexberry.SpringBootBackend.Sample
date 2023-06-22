@@ -83,3 +83,7 @@ Java бэкенд на основе фреймворка Spring Boot
 ### Сервис документации Swagger
 
 localhost:8081/service/docs
+
+### Веб-интерфейс Grafana
+
+localhost:8081/service/grafana
